@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -110,14 +111,44 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $validatedData = Validator::make($request->all(),[
+            
+        ]);
+
+        if($validatedData->fails()){
+            return response()->json([
+                'error' => $validatedData->errors()
+            ],422);
+        }
+
+        $user->update($validatedData);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Informações atualizadas com sucesso',
+            'data' => $user
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    public function profile()
+	{
+		$userData = Auth::user();
+		return response()->json([
+			"status" => true,
+			"message" => "profile information",
+			"data" => $userData
+		]);
+	}
+
+    public function logout(Request $request)
+	{
+		$request->user()->token()->revoke();
+
+		return response()->json([
+			"status" => true,
+			"message" => "Usuário deslogado com sucesso"
+		]);
+	}
 }
