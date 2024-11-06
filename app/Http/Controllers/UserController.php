@@ -114,7 +114,10 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         $validatedData = Validator::make($request->all(),[
-            
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'phone' => 'required|numeric|unique:users,phone',
+            'password' => 'required|string|max:6'
         ]);
 
         if($validatedData->fails()){
@@ -123,7 +126,7 @@ class UserController extends Controller
             ],422);
         }
 
-        $user->update($validatedData);
+        $user->update($validatedData->validate());
 
         return response()->json([
             'status' => true,

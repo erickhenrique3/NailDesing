@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Service;
+use Illuminate\Contracts\Support\ValidatedData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -74,7 +75,21 @@ class ServiceController extends Controller
      */
     public function update(Request $request, Service $service)
     {
-        //
+        $validateData = Validator::make($request->all(),[
+            'price' => 'required|numeric'
+        ]);
+
+        if($validateData->fails()){
+            return response()->json([
+                'error' => $validateData->errors()
+            ],422);
+        }
+
+        $service->update($validateData->validate());
+
+        return response()->json([
+            'service updated sucess' => $service
+        ]);
     }
 
 }

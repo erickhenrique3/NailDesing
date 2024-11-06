@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('service_id')->constrained('services')->onDelete('cascade');
             $table->dateTime('appointment_date');
-            $table->enum('scheduling',['completed','canceled']);
+            $table->enum('payment_status', ['paid', 'unpaid'])->default('unpaid');
             $table->timestamps();
         });
     }

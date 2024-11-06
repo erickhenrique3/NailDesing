@@ -28,5 +28,11 @@ Route::prefix('service')->controller(ServiceController::class)->group(function (
  
   Route::get('/', 'index');
   Route::get('/{service}', 'show');
-  
+});
+
+Route::prefix('appointment')->controller(AppointmentController::class)->group(function () {
+  Route::post('/', 'create');
+  Route::get('/', 'index');
+  Route::get('/{appointment}', 'show');
+  Route::put('/{appointment}', 'update');
 });

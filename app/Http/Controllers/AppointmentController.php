@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AppointmentController extends Controller
 {
@@ -12,23 +13,30 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        //
+        $appointments = Appointment::all();
+        return response()->json($appointments);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
-    }
+        $validatedData = Validator::make($request->all(),[
+            'user_id' => 'required|exists:users,id',
+            'service_id' => 'required|exists:services,id',
+            'appointment_date' => 'required|date',
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        if($validatedData->fails()){
+            return response()->json([
+                'error' => $validatedData->errors()
+            ],422);
+        };
+
+        $appointment = Appointment::create($validatedData->validate());
+    
+        return response()->json($appointment, 201);
     }
 
     /**
@@ -36,15 +44,7 @@ class AppointmentController extends Controller
      */
     public function show(Appointment $appointment)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Appointment $appointment)
-    {
-        //
+        return response()->json($appointment);
     }
 
     /**
@@ -52,7 +52,22 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, Appointment $appointment)
     {
-        //
+        $validatedData = Validator::make($request->all(),[
+            'service_id' => 'required|exists:services,id',
+            'appointment_date' => 'required|date',
+        ]);
+
+        if($validatedData->fails()){
+            return response()->json([
+                'error' => $validatedData->errors()
+            ],422);
+        };
+
+        $appointment->update($validatedData->validate());
+
+        return response()->json([
+            'appoiment updated succes' => $appointment
+        ]);
     }
 
     /**
@@ -60,6 +75,9 @@ class AppointmentController extends Controller
      */
     public function destroy(Appointment $appointment)
     {
-        //
+        $appointment->delete();
+        return response()->json([
+            'appoimente delted success'
+        ]);
     }
 }
