@@ -80,4 +80,23 @@ class AppointmentController extends Controller
             'appoimente delted success'
         ]);
     }
+    
+    public function markAsPaid(Request $request, Appointment $appointment)
+    {
+        $request->validate([
+            'payment_type' => 'required|in:card,pix',
+        ]);
+
+        $appointment->update([
+            'payment_type' => $request->payment_type,
+            'payment_status' => 'paid',
+        ]);
+
+        return response()->json([
+            'message' => 'Pagamento registrado com sucesso.',
+            'appointment' => $appointment,
+        ]);
+    }
+
+    
 }

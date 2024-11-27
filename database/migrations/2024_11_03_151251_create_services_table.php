@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->enum('name',['manicure', 'pedicure']);
             $table->decimal('price',10,2);
+            $table->enum('status', ['completed', 'incomplete'])->default('incomplete'); 
             $table->timestamps();
         });
     }
