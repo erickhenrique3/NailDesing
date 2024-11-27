@@ -19,8 +19,6 @@ return new class extends Migration
             $table->enum('payment_type', ['card', 'pix'])->nullable();
             $table->boolean('completed')->default(false); 
             $table->timestamps();
-
-            $table->timestamps();
         });
     }
 
