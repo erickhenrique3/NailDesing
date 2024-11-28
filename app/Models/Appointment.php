@@ -10,8 +10,7 @@ class Appointment extends Model
         'user_id',
         'service_id',
         'appointment_date',
-        'payment_type',
-        'completed'
+        'status',
     ];
 
       // Relacionamento com User (Um agendamento pertence a um único usuário)

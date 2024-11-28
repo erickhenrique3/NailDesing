@@ -9,7 +9,8 @@ class Service extends Model
     protected $fillable = [
       'name',
       'price',
-      'status'
+      'payment_type',
+      'payment_status'
     ];
 
     public function appointments()

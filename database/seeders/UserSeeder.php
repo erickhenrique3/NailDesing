@@ -14,7 +14,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Cria o Personal Access Client
         try {
             $clientId = DB::table('oauth_clients')->insertGetId([
                 'name' => 'Laravel Personal Access Client',
@@ -27,7 +26,6 @@ class UserSeeder extends Seeder
                 'updated_at' => now(),
             ]);
 
-            // Insere na tabela oauth_personal_access_clients
             DB::table('oauth_personal_access_clients')->insert([
                 'client_id' => $clientId,
                 'created_at' => now(),
@@ -40,7 +38,6 @@ class UserSeeder extends Seeder
             return;
         }
 
-        // Cria um usuário padrão
         try {
             $user = User::create([
                 'name' => 'Admin User',

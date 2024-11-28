@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->enum('name',['manicure', 'pedicure']);
             $table->decimal('price',10,2);
-            $table->enum('status', ['completed', 'incomplete'])->default('incomplete'); 
+            $table->enum('payment_type', ['card', 'pix'])->nullable();
+            $table->enum('payment_status', ['paid', 'unpaid'])->default('unpaid');
             $table->timestamps();
         });
     }
