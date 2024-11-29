@@ -4,14 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AppointmentController;
-
-
+use App\Http\Controllers\PixController;
 
 Route::prefix('user')->controller(UserController::class)->group(function () {
   Route::middleware('token')->group(function () {
     Route::get('profile', [UserController::class, 'profile']);
     Route::get('logout', [UserController::class, 'logout']);
     Route::put('/{user}', [UserController::class, 'update']);
+    Route::post('/generate-pix', [PixController::class, 'generatePix']);
   });
 
   Route::post('/', 'create');

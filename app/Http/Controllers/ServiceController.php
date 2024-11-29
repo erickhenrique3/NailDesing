@@ -39,7 +39,7 @@ class ServiceController extends Controller
         if($validationData->fails()){
             return response()->json([
                 'error' => $validationData->errors()
-            ]);
+            ],422);
         }
 
         $service = Service::create([
