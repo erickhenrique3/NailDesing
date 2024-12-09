@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -47,7 +48,7 @@ class UserController extends Controller
         'name' => $request->name,
         'email' => $request->email,
         'phone' => $request->phone,
-        'role' => $request->role,
+        'role' => $request->role ?? 'client',
         'password' => $request->password
        ]);
 
@@ -92,7 +93,16 @@ class UserController extends Controller
 
 		if (!empty($user)) {
 			if (Hash::check($request->password, $user->password)) {
-				$token = $user->createToken("myToken")->accessToken;
+                $token = $user->createToken("myToken")->accessToken;
+                $redisKey = "logged_users:{$user->id}";
+
+                // Verifica se já existe o usuário logado no Redis
+                if (Redis::exists($redisKey)) {
+                    Redis::del($redisKey);
+                }
+    
+                Redis::set($redisKey, $user->id);
+				
 				return response()->json([
 					"status" => true,
 					"message" => "Login sucessfull",
@@ -148,7 +158,7 @@ class UserController extends Controller
     public function logout(Request $request)
 	{
 		$request->user()->token()->revoke();
-
+        // Redis::del("logged_users:{$user->id}");
 		return response()->json([
 			"status" => true,
 			"message" => "Usuário deslogado com sucesso"
