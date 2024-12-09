@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserLogedd;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -93,6 +94,7 @@ class UserController extends Controller
 		if (!empty($user)) {
 			if (Hash::check($request->password, $user->password)) {
 				$token = $user->createToken("myToken")->accessToken;
+                broadcast(new UserLogedd($user));
 				return response()->json([
 					"status" => true,
 					"message" => "Login sucessfull",
