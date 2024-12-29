@@ -8,18 +8,12 @@ use Illuminate\Support\Facades\Validator;
 
 class AppointmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $appointments = Appointment::all();
         return response()->json($appointments);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(Request $request)
     {
         $validatedData = Validator::make($request->all(),[
@@ -39,17 +33,11 @@ class AppointmentController extends Controller
         return response()->json($appointment, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Appointment $appointment)
     {
         return response()->json($appointment);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Appointment $appointment)
     {
         $validatedData = Validator::make($request->all(),[
@@ -70,14 +58,11 @@ class AppointmentController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Appointment $appointment)
     {
         $appointment->delete();
         return response()->json([
-            'appoimente delted success'
+            'appoimente deleted success'
         ]);
     }
     

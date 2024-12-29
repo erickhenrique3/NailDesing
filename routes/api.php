@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PixController;
 
 Route::prefix('user')->controller(UserController::class)->group(function () {
@@ -17,7 +18,7 @@ Route::prefix('user')->controller(UserController::class)->group(function () {
   Route::post('/', 'create');
   Route::get('/', 'index');
   Route::get('/{user}', 'show');
-  Route::post('/login', 'login');
+  Route::post('/login',[AuthController::class, 'login']);
 });
 
 Route::prefix('service')->controller(ServiceController::class)->group(function () {
