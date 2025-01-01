@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\AuthService;
+use Domain\Auth\Contracts\AuthContract;
+use Domain\Auth\DTOs\LoginDTO;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    protected $authService;
-
-    public function __construct(AuthService $authService)
-    {
-        $this->authService = $authService;
-    }
+    public function __construct(protected readonly AuthContract $authContract)
+    {}
 
     public function login(Request $request)
     {
@@ -26,7 +23,10 @@ class AuthController extends Controller
             return response()->json(['error' => $validator->errors()], 422);
         }
 
-        $response = $this->authService->attemptLogin($request->all());
+        $response = $this->authContract->exec(new LoginDTO (
+            email:  $request->email,
+            password: $request->password
+        ));
        
 
         if (!$response['status']) {
