@@ -1,33 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Auth\Repositories;
 
 use App\Models\User;
-
-class UserRepository {
-  
-  public function getAllUsers()
-  {
-    return User::all();
-  }
-
-  public function findUserById($id)
-  {
-    return User::find($id);
-  }
-
-  public function createUser(array $data)
-  {
-    return user::create($data);
-  }
-
-  public function updateUser(User $user, array $data)
-  {
-    return $user->update($data);
-  }
-
-  public function deleteUser(User $user)
-  {
-    return $user->delete();
-  }
+use Domain\Auth\Contracts\UserRepositoryContract;
+use Domain\Shared\Repositories\BaseRepository;
+class UserRepository extends BaseRepository implements UserRepositoryContract
+{
+    public function __construct()
+    {
+        $this->modelClass = User::class;
+        parent::__construct();
+    }
 }
