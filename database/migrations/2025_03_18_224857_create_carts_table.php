@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->enum('name',['manicure', 'pedicure']);
-            $table->decimal('price',10,2);
-            $table->enum('payment_type', ['card', 'pix'])->nullable();
-            $table->enum('payment_status', ['paid', 'unpaid'])->default('unpaid');
+            $table->string('session_id')->unique();
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('carts');
     }
 };

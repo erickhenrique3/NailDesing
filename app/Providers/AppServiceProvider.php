@@ -4,8 +4,6 @@ namespace App\Providers;
 
 use App\Models\Service;
 use App\Observers\ServiceObserver;
-use Domain\Auth\Contracts\AuthContract;
-use Domain\Auth\Services\AuthService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,7 +13,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(AuthContract::class, AuthService::class);
     }
 
     /**
@@ -23,6 +20,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Service::observe(ServiceObserver::class);
     }
 }

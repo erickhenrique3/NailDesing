@@ -30,9 +30,9 @@ services:
     container_name: mysql_db
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: naildesing
+      MYSQL_DATABASE: eccomerce
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: root
+      MYSQL_USER: erick
       MYSQL_PASSWORD: root
     ports:
       - "3306:3306"
