@@ -29,7 +29,7 @@ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
 # Expõe a porta 9000 para o PHP-FPM
-EXPOSE 9000
+EXPOSE 10000
 
-# Comando padrão: Inicia o PHP-FPM
-CMD ["php-fpm"]
+CMD php artisan serve --host=0.0.0.0 --port=10000
+
