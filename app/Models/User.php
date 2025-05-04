@@ -21,9 +21,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'phone',
         'role',
         'password',
+        'verification_code',
+        'verified',
     ];
 
     /**
@@ -54,8 +55,8 @@ class User extends Authenticatable
         return $this->role === 'admin'; 
     }
 
-    public function appointments()
-    {
-        return $this->hasMany(Appointment::class);
-    }
+    // public function appointments()
+    // {
+    //     return $this->hasMany(Appointment::class);
+    // }
 }

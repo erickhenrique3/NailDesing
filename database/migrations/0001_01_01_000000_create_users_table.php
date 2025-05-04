@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('password');
-            $table->string('phone');
             $table->enum('role',['client','admin'])->default('client');
+            $table->boolean('verified')->default(false);
+            $table->string('verification_code', 6)->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
